@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
 import { CheckSquare, Zap, TrendingUp, BookOpen, Flame, ArrowRight, Clock, Star } from 'lucide-react'
 
@@ -20,9 +20,7 @@ function StatCard({ icon: Icon, label, value, sub, accent, delay = 0 }) {
     onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow=`0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px ${accent}20`; }}
     onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none'; }}
     >
-      {/* top accent line */}
       <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg, transparent, ${accent}, transparent)`, opacity:0.7 }} />
-      {/* bg glow blob */}
       <div style={{ position:'absolute', top:-30, right:-30, width:100, height:100, borderRadius:'50%', background:accent, filter:'blur(50px)', opacity:0.08, pointerEvents:'none' }} />
 
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', position:'relative', zIndex:1 }}>
@@ -82,6 +80,15 @@ export default function Dashboard() {
   const { user, assignments, schedule, achievements, grades, setActivePage, addXP, addToast } = useApp()
   const [claimed, setClaimed] = useState(false)
 
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  )
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
   const greetEmoji = hour < 12 ? '☀️' : hour < 17 ? '👋' : '🌙'
@@ -110,13 +117,12 @@ export default function Dashboard() {
 
       {/* HERO GREETING */}
       <div style={{
-        position:'relative', marginBottom:28, padding:'24px 28px',
+        position:'relative', marginBottom:28, padding: isMobile ? '20px 18px' : '24px 28px',
         borderRadius:20, overflow:'hidden',
         background:'linear-gradient(135deg, rgba(0,245,255,0.07) 0%, rgba(139,92,246,0.09) 50%, rgba(232,121,249,0.06) 100%)',
         border:'1px solid rgba(0,245,255,0.12)',
         boxShadow:'0 0 60px rgba(0,245,255,0.04)',
       }}>
-        {/* decorative rings */}
         {[120,200,280].map((s,i) => (
           <div key={i} style={{ position:'absolute', right:-s/3, top:'50%', transform:'translateY(-50%)', width:s, height:s, borderRadius:'50%', border:`1px solid rgba(0,245,255,${0.06-i*0.015})`, pointerEvents:'none' }} />
         ))}
@@ -124,7 +130,7 @@ export default function Dashboard() {
           <div style={{ fontSize:12, fontFamily:'var(--ff-mono)', color:'var(--cyan)', letterSpacing:2, textTransform:'uppercase', marginBottom:6, opacity:0.8 }}>
             WELCOME BACK
           </div>
-          <h1 style={{ fontFamily:'var(--ff-display)', fontSize:28, fontWeight:800, letterSpacing:'-0.8px', marginBottom:8, lineHeight:1.1 }}>
+          <h1 style={{ fontFamily:'var(--ff-display)', fontSize: isMobile ? 22 : 28, fontWeight:800, letterSpacing:'-0.8px', marginBottom:8, lineHeight:1.1 }}>
             {greeting}, <span style={{ background:'linear-gradient(135deg, #00f5ff, #8b5cf6)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{user.name.split(' ')[0]}</span> {greetEmoji}
           </h1>
           <p style={{ color:'var(--text-2)', fontSize:13.5, lineHeight:1.5 }}>
@@ -147,10 +153,10 @@ export default function Dashboard() {
       </div>
 
       {/* MAIN GRID */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+      <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap:14 }}>
 
         {/* Due Soon */}
-        <div style={{ padding:'20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
+        <div style={{ padding: isMobile ? '18px 16px' : '20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <div style={{ width:7, height:20, borderRadius:99, background:'linear-gradient(#ff4d6d,#fbbf24)' }} />
@@ -168,7 +174,7 @@ export default function Dashboard() {
         </div>
 
         {/* Today's Classes */}
-        <div style={{ padding:'20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
+        <div style={{ padding: isMobile ? '18px 16px' : '20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <div style={{ width:7, height:20, borderRadius:99, background:'linear-gradient(#00f5ff,#8b5cf6)' }} />
@@ -195,7 +201,7 @@ export default function Dashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div style={{ padding:'20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
+        <div style={{ padding: isMobile ? '18px 16px' : '20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
           <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:14 }}>
             <div style={{ width:7, height:20, borderRadius:99, background:'linear-gradient(#fbbf24,#e879f9)' }} />
             <span style={{ fontFamily:'var(--ff-display)', fontWeight:700, fontSize:15 }}>Quick Actions</span>
@@ -232,7 +238,7 @@ export default function Dashboard() {
         </div>
 
         {/* Achievements */}
-        <div style={{ padding:'20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
+        <div style={{ padding: isMobile ? '18px 16px' : '20px 22px', borderRadius:18, background:'rgba(255,255,255,0.028)', border:'1px solid rgba(255,255,255,0.07)', backdropFilter:'blur(24px)' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <div style={{ width:7, height:20, borderRadius:99, background:'linear-gradient(#fbbf24,#00ff88)' }} />
@@ -275,12 +281,12 @@ export default function Dashboard() {
       <div style={{ marginTop:20, display:'flex', justifyContent:'center' }}>
         <button onClick={claimBonus} style={{
           display:'flex', alignItems:'center', gap:10,
-          padding:'13px 28px', borderRadius:99,
+          padding: isMobile ? '12px 20px' : '13px 28px', borderRadius:99,
           background: claimed
             ? 'rgba(255,255,255,0.04)'
             : 'linear-gradient(135deg, #00f5ff 0%, #8b5cf6 100%)',
           color: claimed ? 'var(--text-3)' : '#04040a',
-          fontFamily:'var(--ff-display)', fontWeight:700, fontSize:13.5,
+          fontFamily:'var(--ff-display)', fontWeight:700, fontSize: isMobile ? 12.5 : 13.5,
           border: claimed ? '1px solid rgba(255,255,255,0.08)' : 'none',
           transition:'all 0.25s',
           boxShadow: claimed ? 'none' : '0 0 24px rgba(0,245,255,0.3), 0 8px 24px rgba(0,0,0,0.3)',
