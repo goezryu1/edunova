@@ -32,12 +32,9 @@ sleek dark-neon interface designed to make studying more effective and engaging.
 ## Getting Started
 
 \`\`\`bash
-git clone https://github.com/yourusername/edunova.git
+git clone https://github.com/goezryu1/edunova.git
 cd edunova
 npm install
 npm run dev
 \`\`\`
 
-## Live Demo
-
-[edunova.vercel.app](https://edunova.vercel.app)
