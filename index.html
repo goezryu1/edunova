@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EduNova AI - Smart Student Platform</title>
+
+  <meta name="description" content="EduNova AI - AI-powered student productivity, assignments, schedules, quizzes, flashcards, and study tools." />
+  <meta name="theme-color" content="#0b0f19" />
+
+  <link rel="icon" href="/favicon.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0b0f19;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    #root{
+      min-height:100vh;
+    }
+
+    .loading-screen{
+      position:fixed;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      background:
+      radial-gradient(circle at top,#1e293b,#0b0f19 70%);
+      z-index:9999;
+    }
+
+    .logo{
+      font-size:3rem;
+      font-weight:800;
+      letter-spacing:-2px;
+      color:#22d3ee;
+      text-shadow:0 0 20px rgba(34,211,238,.5);
+    }
+
+    .subtitle{
+      margin-top:10px;
+      color:#94a3b8;
+      font-size:14px;
+      letter-spacing:1px;
+    }
+
+    .loader{
+      width:50px;
+      height:50px;
+      border:4px solid rgba(255,255,255,.1);
+      border-top:4px solid #22d3ee;
+      border-radius:50%;
+      margin-top:25px;
+      animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin{
+      from{transform:rotate(0deg);}
+      to{transform:rotate(360deg);}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <div class="loading-screen">
+      <div class="logo">EduNova AI</div>
+      <div class="subtitle">
+        Smart Learning • AI Assistant • Productivity
+      </div>
+      <div class="loader"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
