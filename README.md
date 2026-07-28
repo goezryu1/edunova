@@ -52,7 +52,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## 🌐 Live Demo
 
-[edunova.vercel.app](https://edunova.vercel.app)
+[edunova-gray.vercel.app](https://edunova.vercel.app)
 
 ---
 
